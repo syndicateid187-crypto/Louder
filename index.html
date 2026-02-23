@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceDominator | Pro Audio FX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="p-4">
+
+    <!-- Background Elements -->
+    <div class="bg-container"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Floating Emojis -->
+    <div class="emoji-float">🎤</div>
+    <div class="emoji-float">🎧</div>
+    <div class="emoji-float">⚡</div>
+    <div class="emoji-float">🔥</div>
+    <div class="emoji-float">✨</div>
+
+    <div id="sideToneOutput" class="hidden"></div>
+
+    <div class="w-full max-w-4xl glass-panel p-8 md:p-12 space-y-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold neon-text tracking-tighter">
+                    VOICE<span class="text-[var(--primary)]">DOMINATOR</span>
+                </h1>
+                <p class="text-gray-400 mt-2 font-light">Professional Real-time Audio Processing Engine</p>
+            </div>
+            <div id="statusIndicator"
+                class="flex items-center bg-black/40 px-4 py-2 rounded-full border border-white/5">
+                <span class="status-dot bg-gray-500"></span>
+                <span class="text-sm font-medium tracking-widest uppercase text-gray-500 ml-2">Offline</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button data-preset="deep" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Deep
+                Male</button>
+            <button data-preset="gaming" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Crisp
+                Gaming</button>
+            <button data-preset="radio" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Radio
+                FM</button>
+            <button data-preset="cinematic"
+                class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Cinematic Bass</button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12">
+            <div class="space-y-8">
+                <div class="space-y-3">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Microphone
+                        Input</label>
+                    <select id="inputSelector"
+                        class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-[var(--primary)] transition-colors text-white">
+                        <option value="default" class="bg-gray-900">Default Microphone</option>
+                    </select>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-end">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Input Gain /
+                            Boost</label>
+                        <span id="gainVal" class="text-[var(--primary)] font-mono text-sm">1.0</span>
+                    </div>
+                    <input id="gain" type="range" min="0" max="10" step="0.1" value="1" class="w-full">
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-end">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Echo
+                            Intensity</label>
+                        <span id="echoVal" class="text-[var(--primary)] font-mono text-sm">0.00</span>
+                    </div>
+                    <input id="echoRange" type="range" min="0" max="0.8" step="0.01" value="0" class="w-full">
+                </div>
+
+                <div class="bg-white/5 p-6 rounded-2xl space-y-4 border border-white/5">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Hear Myself
+                            (Sidetone)</label>
+                        <input type="checkbox" id="monitorToggle"
+                            class="w-5 h-5 accent-[var(--primary)] cursor-pointer">
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-widest">
+                            <span>Monitor Volume</span>
+                            <span id="monitorVal">0.50</span>
+                        </div>
+                        <input id="monitorRange" type="range" min="0" max="1" step="0.01" value="0.5"
+                            class="w-full h-1">
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Atmosphere
+                            Noise</label>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[9px] uppercase text-gray-500 font-bold">Hear Locally:</span>
+                            <input type="checkbox" id="noiseMonitorToggle"
+                                class="w-4 h-4 accent-[var(--primary)] cursor-pointer" checked>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <span id="noiseVal" class="text-[var(--primary)] font-mono text-sm">0.00</span>
+                    </div>
+                    <input id="noiseVol" type="range" min="0" max="1.0" step="0.01" value="0" class="w-full">
+                </div>
+
+                <div class="space-y-3">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Acoustic
+                        Profile</label>
+                    <select id="noiseType"
+                        class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-[var(--primary)] transition-colors text-white">
+                        <option value="white" class="bg-gray-900">Static White</option>
+                        <option value="pink" class="bg-gray-900">Natural Pink</option>
+                        <option value="hum" class="bg-gray-900">Analog Hum</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-between space-y-8">
+                <div class="visualizer-container">
+                    <canvas id="visualizer" width="500" height="160" class="w-full h-full"></canvas>
+                    <div
+                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 transition-opacity">
+                        <span class="text-3xl font-bold tracking-widest text-white/10">LIVE SPECTRUM</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between px-6 py-5 bg-white/5 rounded-2xl border border-white/5">
+                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Pressure Level</span>
+                    <span id="dbMeter" class="text-3xl font-black text-[var(--primary)] italic">00.0</span>
+                </div>
+
+                <!-- Monitoring Device Selector -->
+                <div id="monitoringDeviceSection" class="hidden space-y-3">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Hear Myself On:</label>
+                    <select id="sinkSelector"
+                        class="w-full bg-white/10 border border-white/10 p-3 rounded-xl text-xs outline-none focus:border-[var(--primary)] text-gray-300">
+                        <option value="default">Default Speaker</option>
+                    </select>
+                </div>
+
+                <div class="bg-blue-500/10 border border-blue-500/20 p-6 rounded-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-black uppercase tracking-tighter text-blue-400">Broadcast Mode</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="broadcastToggle" class="sr-only peer" checked>
+                            <div
+                                class="w-10 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600">
+                            </div>
+                        </label>
+                    </div>
+                    <p class="text-[10px] text-gray-500 leading-tight">
+                        Turn **OFF** if you hear your own voice through speakers. <br>
+                        Turn **ON** when you are ready to send audio to Discord.
+                    </p>
+                    <div class="h-[1px] bg-blue-500/10 w-full"></div>
+                    <p class="text-[10px] text-gray-400 leading-relaxed font-light">
+                        1. Browser Output → **Cable Input** <br>
+                        2. Discord Input → **Cable Output**
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <button id="toggleBtn"
+            class="mic-toggle off w-full py-8 rounded-2xl font-black text-2xl uppercase tracking-[0.4em] flex items-center justify-center gap-6 group">
+            <span id="toggleText">INJECT</span>
+            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
+                </path>
+            </svg>
+        </button>
+
+        <footer class="text-center text-[9px] uppercase tracking-[0.5em] text-gray-600">
+            Powered by VoiceDominator V3.1 &bull; Discord Dominance Enabled
+        </footer>
+    </div>
+
+    <script>
+        class VoiceProcessor {
+            constructor() {
+                this.audioCtx = null;
+                this.stream = null;
+                this.micSource = null;
+                this.gainNode = null;
+                this.highPass = null;
+                this.midCut = null;
+                this.presence = null;
+                this.compressor = null;
+                this.limiter = null;
+                this.echoNode = null;
+                this.echoFeedback = null;
+                this.monitorGain = null;
+                this.noiseMonitorGain = null;
+                this.mainOutputGain = null;
+                this.monitorStreamDest = null;
+                this.analyser = null;
+                this.noiseGain = null;
+                this.noiseSource = null;
+                this.isActive = false;
+                this.animationId = null;
+            }
+
+            async start() {
+                try {
+                    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const selectedSource = document.getElementById("inputSelector").value;
+                    const constraints = {
+                        audio: {
+                            deviceId: selectedSource !== 'default' ? { exact: selectedSource } : undefined,
+                            echoCancellation: false,
+                            noiseSuppression: false,
+                            autoGainControl: false
+                        }
+                    };
+                    this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+                    this.micSource = this.audioCtx.createMediaStreamSource(this.stream);
+                    this.gainNode = this.audioCtx.createGain();
+                    this.highPass = this.audioCtx.createBiquadFilter();
+                    this.midCut = this.audioCtx.createBiquadFilter();
+                    this.presence = this.audioCtx.createBiquadFilter();
+
+                    this.compressor = this.audioCtx.createDynamicsCompressor();
+                    this.compressor.ratio.value = 12;
+                    this.compressor.threshold.value = -30;
+                    this.compressor.attack.value = 0.003;
+                    this.compressor.release.value = 0.25;
+
+                    this.limiter = this.audioCtx.createDynamicsCompressor();
+                    this.limiter.ratio.value = 20;
+                    this.limiter.threshold.value = -1;
+                    this.limiter.attack.value = 0.001;
+                    this.limiter.release.value = 0.1;
+
+                    this.echoNode = this.audioCtx.createDelay();
+                    this.echoNode.delayTime.value = 0.25;
+                    this.echoFeedback = this.audioCtx.createGain();
+                    this.echoFeedback.gain.value = 0;
+
+                    this.monitorGain = this.audioCtx.createGain();
+                    this.monitorGain.gain.value = 0; // Controlled by UI
+
+                    this.noiseMonitorGain = this.audioCtx.createGain();
+                    this.noiseMonitorGain.gain.value = 0; // Controlled by UI
+
+                    this.mainOutputGain = this.audioCtx.createGain();
+                    this.mainOutputGain.gain.value = 1; // Controlled by UI
+
+                    this.analyser = this.audioCtx.createAnalyser();
+                    this.noiseGain = this.audioCtx.createGain();
+
+                    this.highPass.type = "highpass";
+                    this.midCut.type = "peaking";
+                    this.presence.type = "peaking";
+                    this.noiseGain.gain.value = 0;
+
+                    // Routing
+                    this.micSource
+                        .connect(this.highPass)
+                        .connect(this.midCut)
+                        .connect(this.presence)
+                        .connect(this.compressor)
+                        .connect(this.limiter);
+
+                    // Echo Loop
+                    this.limiter.connect(this.echoNode);
+                    this.echoNode.connect(this.echoFeedback);
+                    this.echoFeedback.connect(this.echoNode);
+
+                    // Mix
+                    const finalMix = this.audioCtx.createGain();
+                    this.limiter.connect(finalMix);
+                    this.echoNode.connect(finalMix);
+
+                    // Desktop Out (to Virtual Cable / Speakers)
+                    finalMix.connect(this.gainNode);
+                    this.gainNode.connect(this.analyser);
+                    this.analyser.connect(this.mainOutputGain);
+                    this.mainOutputGain.connect(this.audioCtx.destination);
+
+                    // Sidetone Out (Hear Myself) - Independent Sink Path
+                    this.monitorStreamDest = this.audioCtx.createMediaStreamDestination();
+                    finalMix.connect(this.monitorGain);
+                    this.monitorGain.connect(this.monitorStreamDest);
+
+                    // Create hidden local monitor
+                    const audio = document.createElement('audio');
+                    audio.id = "localMonitorNode";
+                    audio.srcObject = this.monitorStreamDest.stream;
+                    audio.play();
+                    document.getElementById("sideToneOutput").appendChild(audio);
+
+                    this.createNoise();
+                    this.visualize();
+                    this.isActive = true;
+                    this.updateUI(true);
+
+                    this.setPreset('deep');
+                    this.syncSettings();
+                } catch (e) {
+                    console.error("Mic Error:", e);
+                    alert("Engine Failure: Could not access microphone.");
+                }
+            }
+
+            syncSettings() {
+                // Apply current UI states to engine nodes
+                const gainV = parseFloat(document.getElementById("gain").value);
+                this.gainNode.gain.value = gainV;
+
+                const echoV = parseFloat(document.getElementById("echoRange").value);
+                this.echoFeedback.gain.value = echoV;
+
+                const monV = document.getElementById("monitorToggle").checked ? parseFloat(document.getElementById("monitorRange").value) : 0;
+                this.monitorGain.gain.value = monV;
+
+                const monNoise = document.getElementById("noiseMonitorToggle").checked ? 1 : 0;
+                this.noiseMonitorGain.gain.value = monNoise;
+
+                const broadV = document.getElementById("broadcastToggle").checked ? 1 : 0;
+                this.mainOutputGain.gain.value = broadV;
+            }
+
+            stop() {
+                this.isActive = false;
+                if (this.animationId) cancelAnimationFrame(this.animationId);
+                if (this.stream) this.stream.getTracks().forEach(track => track.stop());
+                if (this.audioCtx) this.audioCtx.close();
+
+                this.updateUI(false);
+                this.clearVisualizer();
+            }
+
+            createNoise() {
+                const bufferSize = 2 * this.audioCtx.sampleRate;
+                const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
+                const data = noiseBuffer.getChannelData(0);
+
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                this.noiseSource = this.audioCtx.createBufferSource();
+                this.noiseSource.buffer = noiseBuffer;
+                this.noiseSource.loop = true;
+
+                this.noiseSource.connect(this.noiseGain);
+
+                // Discord Out (Always)
+                this.noiseGain.connect(this.mainOutputGain);
+
+                // Route to sidetone through gate (Optional)
+                this.noiseGain.connect(this.noiseMonitorGain).connect(this.monitorGain);
+
+                this.noiseSource.start();
+            }
+
+            setPreset(type) {
+                if (!this.isActive) return;
+                document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+                const btn = document.querySelector(`[data-preset="${type}"]`);
+                if (btn) btn.classList.add('active');
+
+                switch (type) {
+                    case "deep": this.applyFilter(60, 250, -6, 3500, 4); break;
+                    case "gaming": this.applyFilter(100, 300, -8, 5000, 8); break;
+                    case "radio": this.applyFilter(80, 400, -4, 4000, 6); break;
+                    case "cinematic": this.applyFilter(30, 150, -2, 2500, 5); break;
+                }
+            }
+
+            applyFilter(hp, mcF, mcG, pF, pG) {
+                this.highPass.frequency.exponentialRampToValueAtTime(hp, this.audioCtx.currentTime + 0.1);
+                this.midCut.frequency.exponentialRampToValueAtTime(mcF, this.audioCtx.currentTime + 0.1);
+                this.midCut.gain.linearRampToValueAtTime(mcG, this.audioCtx.currentTime + 0.1);
+                this.presence.frequency.exponentialRampToValueAtTime(pF, this.audioCtx.currentTime + 0.1);
+                this.presence.gain.linearRampToValueAtTime(pG, this.audioCtx.currentTime + 0.1);
+            }
+
+            visualize() {
+                const canvas = document.getElementById("visualizer");
+                const ctx = canvas.getContext("2d");
+                this.analyser.fftSize = 2048;
+                const bufferLength = this.analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                const draw = () => {
+                    if (!this.isActive) return;
+                    this.animationId = requestAnimationFrame(draw);
+                    this.analyser.getByteTimeDomainData(dataArray);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#00f2ff';
+                    ctx.beginPath();
+
+                    let sliceWidth = canvas.width / bufferLength;
+                    let x = 0;
+
+                    for (let i = 0; i < bufferLength; i++) {
+                        let v = dataArray[i] / 128.0;
+                        let y = v * canvas.height / 2;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                        x += sliceWidth;
+                    }
+
+                    ctx.lineTo(canvas.width, canvas.height / 2);
+                    ctx.stroke();
+
+                    let sum = 0;
+                    for (let i = 0; i < bufferLength; i++) sum += Math.abs(dataArray[i] - 128);
+                    let volume = (sum / bufferLength);
+                    document.getElementById("dbMeter").innerText = (volume * 4).toFixed(1);
+
+                    if (volume > 25) {
+                        document.getElementById("dbMeter").style.color = "#ef4444";
+                        document.getElementById("dbMeter").style.textShadow = "0 0 20px #ef4444";
+                    } else {
+                        document.getElementById("dbMeter").style.color = "var(--primary)";
+                        document.getElementById("dbMeter").style.textShadow = "none";
+                    }
+                }
+                draw();
+            }
+
+            clearVisualizer() {
+                const canvas = document.getElementById("visualizer");
+                const ctx = canvas.getContext("2d");
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                document.getElementById("dbMeter").innerText = "00.0";
+            }
+
+            updateUI(running) {
+                const btn = document.getElementById("toggleBtn");
+                const text = document.getElementById("toggleText");
+                const status = document.getElementById("statusIndicator");
+
+                if (running) {
+                    btn.classList.replace('off', 'on');
+                    text.innerText = "STOP";
+                    status.querySelector('.status-dot').style.backgroundColor = 'var(--primary)';
+                    status.querySelector('.status-dot').style.color = 'var(--primary)';
+                    status.querySelector('.status-dot').classList.add('pulse');
+                    status.querySelector('span:last-child').innerText = "ONLINE";
+                    status.querySelector('span:last-child').classList.replace('text-gray-500', 'text-[var(--primary)]');
+                    document.getElementById("monitoringDeviceSection").classList.remove('hidden');
+                    this.enumerateDevices();
+                } else {
+                    btn.classList.replace('on', 'off');
+                    text.innerText = "INJECT";
+                    status.querySelector('.status-dot').style.backgroundColor = '#6b7280';
+                    status.querySelector('.status-dot').classList.remove('pulse');
+                    status.querySelector('span:last-child').innerText = "Offline";
+                    status.querySelector('span:last-child').classList.replace('text-[var(--primary)]', 'text-gray-500');
+                    document.getElementById("monitoringDeviceSection").classList.add('hidden');
+                }
+            }
+
+            async enumerateDevices() {
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+
+                    // Input Devices
+                    const inputSelector = document.getElementById("inputSelector");
+                    const currentInput = inputSelector.value;
+                    inputSelector.innerHTML = '<option value="default">Default Microphone</option>';
+
+                    // Output Devices
+                    const sinkSelector = document.getElementById("sinkSelector");
+                    const currentSink = sinkSelector.value;
+                    sinkSelector.innerHTML = '<option value="default">Default Speaker</option>';
+
+                    devices.forEach(device => {
+                        const opt = document.createElement('option');
+                        opt.value = device.deviceId;
+                        opt.text = device.label || `${device.kind === 'audioinput' ? 'Mic' : 'Speaker'} ${device.deviceId.slice(0, 4)}`;
+
+                        if (device.kind === 'audioinput') {
+                            inputSelector.appendChild(opt);
+                        } else if (device.kind === 'audiooutput') {
+                            sinkSelector.appendChild(opt);
+                        }
+                    });
+
+                    inputSelector.value = currentInput;
+                    sinkSelector.value = currentSink;
+
+                } catch (e) {
+                    console.error("Device Enumeration Error:", e);
+                }
+            }
+        }
+
+        const engine = new VoiceProcessor();
+
+        document.getElementById("toggleBtn").onclick = () => {
+            engine.isActive ? engine.stop() : engine.start();
+        };
+
+        document.querySelectorAll('.btn-preset').forEach(btn => {
+            btn.onclick = () => engine.setPreset(btn.dataset.preset);
+        });
+
+        window.onload = () => {
+            engine.enumerateDevices();
+        };
+
+        const updateMonitor = () => {
+            const isEnabled = document.getElementById("monitorToggle").checked;
+            const val = isEnabled ? parseFloat(document.getElementById("monitorRange").value) : 0;
+            if (engine.monitorGain) engine.monitorGain.gain.setTargetAtTime(val, engine.audioCtx.currentTime, 0.05);
+            document.getElementById("monitorVal").innerText = parseFloat(document.getElementById("monitorRange").value).toFixed(2);
+        };
+
+        document.getElementById("monitorToggle").onchange = updateMonitor;
+        document.getElementById("monitorRange").oninput = updateMonitor;
+        document.getElementById("noiseMonitorToggle").onchange = updateMonitor;
+
+        document.getElementById("sinkSelector").onchange = async (e) => {
+            const audio = document.getElementById("localMonitorNode");
+            if (audio && typeof audio.setSinkId === 'function') {
+                try {
+                    await audio.setSinkId(e.target.value);
+                } catch (err) {
+                    console.error("Sink Change Failed:", err);
+                }
+            }
+        };
+
+        document.getElementById("gain").oninput = e => {
+            const val = parseFloat(e.target.value);
+            if (engine.gainNode) engine.gainNode.gain.setTargetAtTime(val, engine.audioCtx.currentTime, 0.05);
+            document.getElementById("gainVal").innerText = val.toFixed(1);
+        };
+
+        document.getElementById("echoRange").oninput = e => {
+            const val = parseFloat(e.target.value);
+            if (engine.echoFeedback) engine.echoFeedback.gain.setTargetAtTime(val, engine.audioCtx.currentTime, 0.05);
+            document.getElementById("echoVal").innerText = val.toFixed(2);
+        };
+
+        document.getElementById("noiseVol").oninput = e => {
+            const val = parseFloat(e.target.value);
+            if (engine.noiseGain) engine.noiseGain.gain.setTargetAtTime(val, engine.audioCtx.currentTime, 0.05);
+            document.getElementById("noiseVal").innerText = val.toFixed(2);
+        };
+
+        document.getElementById("broadcastToggle").onchange = e => {
+            const val = e.target.checked ? 1 : 0;
+            if (engine.mainOutputGain) engine.mainOutputGain.gain.setTargetAtTime(val, engine.audioCtx.currentTime, 0.05);
+        };
+    </script>
+
+</body>
+
+</html>
