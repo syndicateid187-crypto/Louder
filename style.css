@@ -7,6 +7,8 @@
     --glass-heavy: rgba(255, 255, 255, 0.07);
     --border: rgba(255, 255, 255, 0.1);
     --glow: rgba(0, 242, 255, 0.3);
+    --discord: #5865F2;
+    --discord-glow: rgba(88, 101, 242, 0.4);
 }
 
 * {
@@ -280,4 +282,47 @@ canvas {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--border);
+}
+
+/* Discord Connect Button */
+.btn-discord {
+    background: var(--discord);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px var(--discord-glow);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    color: white !important;
+}
+
+.btn-discord:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 25px var(--discord-glow), 0 0 15px rgba(255, 255, 255, 0.2);
+    filter: brightness(1.1);
+}
+
+.btn-discord:active {
+    transform: scale(0.95);
+}
+
+/* Checklist Styles */
+.checklist-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.checklist-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.checklist-item.active {
+    border-color: var(--primary);
+    background: rgba(0, 242, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
 }

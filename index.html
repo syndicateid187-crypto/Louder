@@ -33,21 +33,28 @@
                 </h1>
                 <p class="text-gray-400 mt-2 font-light">Professional Real-time Audio Processing Engine</p>
             </div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
+                <button id="discordConnectBtn"
+                    class="btn-discord flex items-center gap-2 px-6 py-2.5 rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all group">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.862-1.297 1.197-1.99a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-2.863-1.366.077.077 0 0 1-.008-.126c.193-.145.385-.298.568-.456a.077.077 0 0 1 .081-.01c4.001 1.837 8.356 1.837 12.316 0a.076.076 0 0 1 .081.01c.183.158.375.311.569.456a.077.077 0 0 1-.007.126 12.91 12.91 0 0 1-2.863 1.366.077.077 0 0 0-.042.106c.335.694.735 1.361 1.197 1.99a.078.078 0 0 0 .084.028 19.83 19.83 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z">
+                        </path>
+                    </svg>
+                    CONNECT TO DISCORD
+                </button>
                 <button id="helpBtn"
-                    class="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/10 transition-all group"
-                    title="Discord Setup Guide">
-                    <svg class="w-4 h-4 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor"
+                    class="bg-white/5 hover:bg-white/10 p-3 rounded-2xl border border-white/10 transition-all group"
+                    title="Setup Guide">
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                         </path>
                     </svg>
-                    <span class="text-[10px] font-bold tracking-[0.2em] text-gray-400 group-hover:text-white">HELP /
-                        DISCORD</span>
                 </button>
                 <div id="statusIndicator"
-                    class="flex items-center bg-black/40 px-4 py-2 rounded-full border border-white/5">
+                    class="flex items-center bg-black/40 px-4 py-2.5 rounded-2xl border border-white/5">
                     <span class="status-dot bg-gray-500"></span>
                     <span class="text-sm font-medium tracking-widest uppercase text-gray-500 ml-2">Offline</span>
                 </div>
@@ -221,42 +228,45 @@
 
             <div
                 class="space-y-6 text-sm text-gray-400 leading-relaxed overflow-y-auto max-h-[60vh] pr-4 custom-scrollbar">
-                <div class="space-y-3">
-                    <h3 class="text-white font-bold flex items-center gap-2">
-                        <span
-                            class="w-6 h-6 rounded-full bg-[var(--primary)] text-black flex items-center justify-center text-xs font-black">1</span>
-                        Install Virtual Audio Cable
-                    </h3>
-                    <p>Download and install <strong>VB-CABLE Driver</strong> from <a href="https://vb-audio.com/Cable/"
-                            target="_blank" class="text-[var(--primary)] underline">vb-audio.com</a>. Restart your PC
-                        after installation.</p>
+                <div class="checklist-item space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center text-xs font-black border border-[var(--primary)]/30">
+                            1</div>
+                        <h3 class="text-white font-bold">Install Virtual Cable</h3>
+                    </div>
+                    <p class="pl-12">Download <strong>VB-CABLE Driver</strong> from <a
+                            href="https://vb-audio.com/Cable/" target="_blank"
+                            class="text-[var(--primary)] underline">vb-audio.com</a>. Restart after install.</p>
                 </div>
 
-                <div class="space-y-3">
-                    <h3 class="text-white font-bold flex items-center gap-2">
-                        <span
-                            class="w-6 h-6 rounded-full bg-[var(--primary)] text-black flex items-center justify-center text-xs font-black">2</span>
-                        Windows Routing
-                    </h3>
-                    <p>Go to Windows <strong>Sound Settings</strong> > <strong>App volume preferences</strong>. Set this
-                        browser's <strong>Output</strong> to <strong>"CABLE Input"</strong>.</p>
+                <div class="checklist-item space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center text-xs font-black border border-[var(--primary)]/30">
+                            2</div>
+                        <h3 class="text-white font-bold">Route Audio to Cable</h3>
+                    </div>
+                    <p class="pl-12">Win + S > "Sound Settings" > "App volume". Set this Browser's
+                        <strong>Output</strong> to <strong>"CABLE Input"</strong>.</p>
                 </div>
 
-                <div class="space-y-3">
-                    <h3 class="text-white font-bold flex items-center gap-2">
-                        <span
-                            class="w-6 h-6 rounded-full bg-[var(--primary)] text-black flex items-center justify-center text-xs font-black">3</span>
-                        Discord Configuration
-                    </h3>
-                    <p>In Discord <strong>Voice & Video</strong>, set <strong>Input Device</strong> to <strong>"CABLE
-                            Output"</strong>. Turn OFF 'Echo Cancellation' for best quality.</p>
+                <div class="checklist-item space-y-3">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center text-xs font-black border border-[var(--primary)]/30">
+                            3</div>
+                        <h3 class="text-white font-bold">Select Cable in Discord</h3>
+                    </div>
+                    <p class="pl-12">In Discord Voice & Video settings, set <strong>Input Device</strong> to
+                        <strong>"CABLE Output"</strong>.</p>
                 </div>
 
-                <div
-                    class="bg-[var(--primary)]/5 border border-[var(--primary)]/20 p-4 rounded-2xl flex gap-4 items-start">
-                    <div class="text-[var(--primary)]">⚠️</div>
-                    <p class="text-xs italic">Note: Remember to turn <strong>ON</strong> "Broadcast Mode" on this
-                        dashboard when you are ready to speak in Discord.</p>
+                <div class="bg-[var(--primary)]/5 border border-[var(--primary)]/20 p-6 rounded-2xl">
+                    <p class="text-[10px] font-bold tracking-widest text-[var(--primary)] uppercase mb-2">💡
+                        Auto-Broadcast Active</p>
+                    <p class="text-xs italic">Broadcasting processed audio to Virtual Cable. Ensure "Broadcast Mode" is
+                        ON below.</p>
                 </div>
             </div>
 
@@ -551,13 +561,10 @@
             async enumerateDevices() {
                 try {
                     const devices = await navigator.mediaDevices.enumerateDevices();
-
-                    // Input Devices
                     const inputSelector = document.getElementById("inputSelector");
                     const currentInput = inputSelector.value;
                     inputSelector.innerHTML = '<option value="default">Default Microphone</option>';
 
-                    // Output Devices
                     const sinkSelector = document.getElementById("sinkSelector");
                     const currentSink = sinkSelector.value;
                     sinkSelector.innerHTML = '<option value="default">Default Speaker</option>';
@@ -595,8 +602,20 @@
 
         window.onload = () => {
             engine.enumerateDevices();
-            document.getElementById("helpBtn").onclick = () => {
-                document.getElementById("helpModal").classList.remove("hidden");
+
+            const openModal = () => document.getElementById("helpModal").classList.remove("hidden");
+
+            document.getElementById("helpBtn").onclick = openModal;
+            document.getElementById("discordConnectBtn").onclick = () => {
+                const toggle = document.getElementById("broadcastToggle");
+                if (toggle && !toggle.checked) {
+                    toggle.checked = true;
+                    // Trigger engine update manually since we are forcing the checkbox
+                    if (engine.mainOutputGain && engine.isActive) {
+                        engine.mainOutputGain.gain.setTargetAtTime(1, engine.audioCtx.currentTime, 0.05);
+                    }
+                }
+                openModal();
             };
         };
 
