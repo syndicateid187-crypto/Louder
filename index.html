@@ -208,17 +208,25 @@
         </footer>
     </div>
 
-    <!-- Discord Setup Modal -->
+    <!-- Discord Setup Wizard Modal -->
     <div id="helpModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"
-            onclick="document.getElementById('helpModal').classList.add('hidden')"></div>
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeWizard()"></div>
         <div
-            class="relative w-full max-w-2xl bg-[#0a0a20] border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl space-y-8">
+            class="relative w-full max-w-2xl bg-[#0a0a20] border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl space-y-8 overflow-hidden">
+
+            <!-- Progress Bar -->
+            <div class="flex gap-2">
+                <div class="step-indicator h-1 flex-1 bg-[var(--primary)] rounded-full transition-all duration-500"
+                    id="stepIndicator1"></div>
+                <div class="step-indicator h-1 flex-1 bg-white/10 rounded-full transition-all duration-500"
+                    id="stepIndicator2"></div>
+                <div class="step-indicator h-1 flex-1 bg-white/10 rounded-full transition-all duration-500"
+                    id="stepIndicator3"></div>
+            </div>
+
             <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-black tracking-tighter text-white">DISCORD <span
-                        class="text-[var(--primary)]">SETUP GUIDE</span></h2>
-                <button onclick="document.getElementById('helpModal').classList.add('hidden')"
-                    class="text-gray-500 hover:text-white transition-colors">
+                <h2 class="text-2xl font-black tracking-tighter text-white" id="wizardTitle">DISCORD WIZARD</h2>
+                <button onclick="closeWizard()" class="text-gray-500 hover:text-white transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                         </path>
@@ -226,54 +234,111 @@
                 </button>
             </div>
 
-            <div
-                class="space-y-6 text-sm text-gray-400 leading-relaxed overflow-y-auto max-h-[60vh] pr-4 custom-scrollbar">
-                <div class="checklist-item space-y-3">
+            <!-- Step 1: Windows Sound Settings -->
+            <div id="step1" class="wizard-step active pb-4">
+                <div class="checklist-item space-y-6">
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-8 h-8 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center text-xs font-black border border-[var(--primary)]/30">
+                            class="w-10 h-10 rounded-full bg-[var(--primary)] text-black flex items-center justify-center text-sm font-black ring-4 ring-[var(--primary)]/20">
                             1</div>
-                        <h3 class="text-white font-bold">Install Virtual Cable</h3>
+                        <div>
+                            <h3 class="text-lg text-white font-bold">Configure Windows Output</h3>
+                            <p class="text-xs text-gray-400">Set this browser to "CABLE Input"</p>
+                        </div>
                     </div>
-                    <p class="pl-12">Download <strong>VB-CABLE Driver</strong> from <a
-                            href="https://vb-audio.com/Cable/" target="_blank"
-                            class="text-[var(--primary)] underline">vb-audio.com</a>. Restart after install.</p>
-                </div>
 
-                <div class="checklist-item space-y-3">
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-8 h-8 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center text-xs font-black border border-[var(--primary)]/30">
-                            2</div>
-                        <h3 class="text-white font-bold">Route Audio to Cable</h3>
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 space-y-4">
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Aapko Windows ki Sound settings mein is browser ka output <strong>"CABLE Input"</strong> par
+                            set karna hoga.
+                        </p>
+                        <a href="ms-settings:apps-volume"
+                            class="ms-link-btn flex items-center justify-center gap-3 w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-[var(--primary)]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                </path>
+                            </svg>
+                            OPEN WINDOWS SOUND SETTINGS
+                        </a>
+                        <p class="text-[10px] text-gray-500 italic text-center">Settings khulne ke baad "Louder"
+                            (Browser) dhoondein aur wahan "CABLE Input" select karein.</p>
                     </div>
-                    <p class="pl-12">Win + S > "Sound Settings" > "App volume". Set this Browser's
-                        <strong>Output</strong> to <strong>"CABLE Input"</strong>.</p>
-                </div>
-
-                <div class="checklist-item space-y-3">
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-8 h-8 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center text-xs font-black border border-[var(--primary)]/30">
-                            3</div>
-                        <h3 class="text-white font-bold">Select Cable in Discord</h3>
-                    </div>
-                    <p class="pl-12">In Discord Voice & Video settings, set <strong>Input Device</strong> to
-                        <strong>"CABLE Output"</strong>.</p>
-                </div>
-
-                <div class="bg-[var(--primary)]/5 border border-[var(--primary)]/20 p-6 rounded-2xl">
-                    <p class="text-[10px] font-bold tracking-widest text-[var(--primary)] uppercase mb-2">💡
-                        Auto-Broadcast Active</p>
-                    <p class="text-xs italic">Broadcasting processed audio to Virtual Cable. Ensure "Broadcast Mode" is
-                        ON below.</p>
                 </div>
             </div>
 
-            <button onclick="document.getElementById('helpModal').classList.add('hidden')"
-                class="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-xs font-bold tracking-widest uppercase transition-colors">
-                Got it, Let's Go
-            </button>
+            <!-- Step 2: Discord Settings -->
+            <div id="step2" class="wizard-step hidden pb-4">
+                <div class="checklist-item space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-[var(--discord)] text-white flex items-center justify-center text-sm font-black ring-4 ring-[var(--discord)]/20">
+                            2</div>
+                        <div>
+                            <h3 class="text-lg text-white font-bold">Configure Discord Input</h3>
+                            <p class="text-xs text-gray-400">Set Discord Input to "CABLE Output"</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 space-y-4">
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Ab Discord ki <strong>Voice & Video</strong> settings mein jayein aur Input Device
+                            dhoondein.
+                        </p>
+
+                        <div
+                            class="flex items-center justify-between p-4 bg-[var(--discord)]/10 border border-[var(--discord)]/20 rounded-xl">
+                            <div class="space-y-1">
+                                <span class="text-[10px] uppercase font-bold text-[var(--discord)] opacity-70">Input
+                                    Device</span>
+                                <p class="text-white font-mono font-bold">CABLE Output (VB-Audio...)</p>
+                            </div>
+                            <svg class="w-6 h-6 text-[var(--discord)]" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.862-1.297 1.197-1.99a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-2.863-1.366.077.077 0 0 1-.008-.126c.193-.145.385-.298.568-.456a.077.077 0 0 1 .081-.01c4.001 1.837 8.356 1.837 12.316 0a.076.076 0 0 1 .081.01c.183.158.375.311.569.456a.077.077 0 0 1-.007.126 12.91 12.91 0 0 1-2.863 1.366.077.077 0 0 0-.042.106c.335.694.735 1.361 1.197 1.99a.078.078 0 0 0 .084.028 19.83 19.83 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z">
+                                </path>
+                            </svg>
+                        </div>
+
+                        <p class="text-[10px] text-gray-500 italic">Discord open karein > Settings > Voice & Video >
+                            Input Device dhoondein.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Success -->
+            <div id="step3" class="wizard-step hidden pb-4 text-center space-y-6">
+                <div
+                    class="w-24 h-24 rounded-full bg-[var(--primary)]/20 text-[var(--primary)] flex items-center justify-center mx-auto ring-8 ring-[var(--primary)]/10">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-black text-white">READY TO DOMINATE!</h3>
+                    <p class="text-gray-400">Settings configured. Voice broadcasting active.</p>
+                </div>
+                <div class="bg-[var(--primary)]/5 border border-[var(--primary)]/20 p-4 rounded-xl">
+                    <p class="text-xs text-gray-300">"Broadcast Mode" ab on hai. Aap jo bhi website par bolenge wo
+                        seedha Discord mein sunai dega.</p>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex gap-4">
+                <button id="wizardBack" onclick="changeWizardStep(-1)"
+                    class="btn-wizard-back flex-1 py-4 rounded-2xl text-[10px] font-bold tracking-widest uppercase transition-all hidden">
+                    Back
+                </button>
+                <button id="wizardNext" onclick="changeWizardStep(1)"
+                    class="btn-wizard-next flex-[2] py-4 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all">
+                    Step 2: Discord Settings
+                </button>
+                <button id="wizardFinish" onclick="closeWizard()"
+                    class="btn-wizard-next w-full py-4 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all hidden">
+                    Finish Setup
+                </button>
+            </div>
         </div>
     </div>
 
@@ -591,6 +656,60 @@
         }
 
         const engine = new VoiceProcessor();
+        let wizardStep = 1;
+
+        const showWizardStep = (step) => {
+            wizardStep = step;
+            document.querySelectorAll('.wizard-step').forEach((s, idx) => {
+                if (idx + 1 === step) {
+                    s.classList.remove('hidden');
+                    s.classList.add('active');
+                } else {
+                    s.classList.add('hidden');
+                    s.classList.remove('active');
+                }
+            });
+
+            // Update Indicators
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`stepIndicator${i}`);
+                if (i <= step) indicator.style.backgroundColor = 'var(--primary)';
+                else indicator.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            }
+
+            // Update Buttons
+            const nextBtn = document.getElementById("wizardNext");
+            const backBtn = document.getElementById("wizardBack");
+            const finishBtn = document.getElementById("wizardFinish");
+
+            if (step === 1) {
+                backBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                finishBtn.classList.add('hidden');
+                nextBtn.innerText = "Step 2: Discord Settings";
+            } else if (step === 2) {
+                backBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                finishBtn.classList.add('hidden');
+                nextBtn.innerText = "Next Step";
+            } else if (step === 3) {
+                backBtn.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+                finishBtn.classList.remove('hidden');
+            }
+        };
+
+        const changeWizardStep = (dir) => {
+            const nextStep = wizardStep + dir;
+            if (nextStep >= 1 && nextStep <= 3) {
+                showWizardStep(nextStep);
+            }
+        };
+
+        const closeWizard = () => {
+            document.getElementById("helpModal").classList.add('hidden');
+            setTimeout(() => showWizardStep(1), 300);
+        };
 
         document.getElementById("toggleBtn").onclick = () => {
             engine.isActive ? engine.stop() : engine.start();
@@ -603,19 +722,21 @@
         window.onload = () => {
             engine.enumerateDevices();
 
-            const openModal = () => document.getElementById("helpModal").classList.remove("hidden");
+            const openWizard = () => {
+                document.getElementById("helpModal").classList.remove("hidden");
+                showWizardStep(1);
+            };
 
-            document.getElementById("helpBtn").onclick = openModal;
+            document.getElementById("helpBtn").onclick = openWizard;
             document.getElementById("discordConnectBtn").onclick = () => {
                 const toggle = document.getElementById("broadcastToggle");
                 if (toggle && !toggle.checked) {
                     toggle.checked = true;
-                    // Trigger engine update manually since we are forcing the checkbox
                     if (engine.mainOutputGain && engine.isActive) {
                         engine.mainOutputGain.gain.setTargetAtTime(1, engine.audioCtx.currentTime, 0.05);
                     }
                 }
-                openModal();
+                openWizard();
             };
         };
 
