@@ -1,31 +1,30 @@
-# 🎙️ Connecting VoiceDominator to Discord
+# 🎙️ Discord Connection Guide
 
-Follow these steps to send your processed voice from the web dashboard directly into a Discord voice channel.
+If you want to send your processed audio from this website to Discord, follow these steps.
 
-## 1. Requirement: Virtual Audio Cable
-You need a "bridge" to send audio from your browser to Discord.
-- Download and install **VB-CABLE Driver**: [Download Link](https://vb-audio.com/Cable/)
-- **Note**: Restart your computer after installation.
+## Step 0: Install VB-CABLE (MANDATORY)
+If you don't see "CABLE Input" in your settings, you must install the driver first.
+1.  **Download**: [VB-Audio Virtual Cable](https://vb-audio.com/Cable/)
+2.  **Install**: Extract the ZIP and run `VBCABLE_Setup_x64.exe` as Administrator.
+3.  **RESTART**: You **MUST restart your computer** after installation.
 
-## 2. Windows Settings (Browser Output)
-You must tell Windows to send the browser's audio into the Virtual Cable.
-1. Open **Settings** > **System** > **Sound**.
-2. Scroll down to **Advanced sound options** > **App volume and device preferences**.
-3. Find your browser (Chrome/Edge) in the list.
-4. Set its **Output** to **"CABLE Input (VB-Audio Virtual Cable)"**.
+## Step 1: Route Browser Audio
+1. Open Windows **Sound Settings**.
+2. Scroll to **"App volume and device preferences"** (at the bottom).
+3. Find your Browser (Chrome/Edge/etc.) in the list.
+4. Change the **Output** dropdown to **"CABLE Input (VB-Audio Virtual Cable)"**.
 
-## 3. Discord Settings (Microphone Input)
-Now, tell Discord to listen to that Virtual Cable.
-1. Open **Discord** > **User Settings** (Gear icon).
-2. Go to **Voice & Video**.
-3. Set **Input Device** to **"CABLE Output (VB-Audio Virtual Cable)"**.
-4. Set **Output Device** to your usual **Headphones/Speakers**.
+## Step 2: Configure Discord
+1. Open Discord **User Settings** > **Voice & Video**.
+2. Set **Input Device** to **"CABLE Output (VB-Audio Virtual Cable)"**.
+3. **IMPORTANT**: Turn OFF "Echo Cancellation" and "Noise Suppression" in Discord for the best audio quality.
 
-## 4. Final Verification
-1. On the VoiceDominator dashboard, turn **Broadcast Mode** to **ON**.
-2. Click **INJECT** and start speaking.
-3. In Discord, use the "Let's Check" mic test to hear your processed voice.
+## Troubleshooting
+**"CABLE Input" is not in the list?**
+- Make sure you ran the installer as Administrator.
+- Make sure you have restarted your computer.
+- Check if the device is enabled in "Control Panel" > "Sound" > "Playback" tab.
 
-### 💡 Pro Tips:
-- **Echo Cancellation**: Turn this **OFF** in Discord settings for the best effect quality.
-- **Hearing Yourself**: Use the **"Hear Myself (Sidetone)"** toggle on the dashboard if you want to monitor your own voice while speaking.
+**Can't hear anything in Discord?**
+- Make sure "Broadcast Mode" is ON on the website.
+- Make sure you have selected the correct input in Discord.

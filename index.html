@@ -25,147 +25,302 @@
 
     <div id="sideToneOutput" class="hidden"></div>
 
+    <!-- Landing Gate -->
+    <div id="landingGate">
+        <div class="inject-orb"
+            onclick="engine.start(); document.getElementById('landingGate').classList.add('hidden');">
+            <span class="text-white font-black tracking-[0.3em] text-xl">INJECT</span>
+        </div>
+        <p class="text-gray-500 text-[10px] uppercase tracking-[0.5em] animate-pulse">Initialize Engine</p>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div id="sidebar" class="sidebar">
+        <div class="space-y-2">
+            <div class="nav-item active" onclick="switchCategory('discord')">
+                <span>🌐</span> 1. Discord
+            </div>
+            <div class="nav-item" onclick="switchCategory('voice')">
+                <span>🗣️</span> 2. Voice Type
+            </div>
+            <div class="nav-item" onclick="switchCategory('functions')">
+                <span>⚙️</span> 3. Functions
+            </div>
+            <div class="nav-item" onclick="switchCategory('connectivity')">
+                <span>📶</span> 4. Connectivity
+            </div>
+            <div class="nav-item" onclick="switchCategory('soundboard')">
+                <span>🎹</span> 5. Soundboard
+            </div>
+            <div class="nav-item" onclick="switchCategory('other')">
+                <span>🛠️</span> 6. Others
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Trigger -->
+    <button class="menu-trigger" onclick="toggleSidebar()">
+        <svg class="w-6 h-6 text-[var(--primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
     <div class="w-full max-w-4xl glass-panel p-8 md:p-12 space-y-10">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-                <h1 class="text-4xl md:text-5xl font-extrabold neon-text tracking-tighter">
-                    VOICE<span class="text-[var(--primary)]">DOMINATOR</span>
-                </h1>
-                <p class="text-gray-400 mt-2 font-light">Professional Real-time Audio Processing Engine</p>
-            </div>
-            <div class="flex items-center gap-3">
-                <button id="discordConnectBtn"
-                    class="btn-discord flex items-center gap-2 px-6 py-2.5 rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all group">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.862-1.297 1.197-1.99a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-2.863-1.366.077.077 0 0 1-.008-.126c.193-.145.385-.298.568-.456a.077.077 0 0 1 .081-.01c4.001 1.837 8.356 1.837 12.316 0a.076.076 0 0 1 .081.01c.183.158.375.311.569.456a.077.077 0 0 1-.007.126 12.91 12.91 0 0 1-2.863 1.366.077.077 0 0 0-.042.106c.335.694.735 1.361 1.197 1.99a.078.078 0 0 0 .084.028 19.83 19.83 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z">
-                        </path>
-                    </svg>
-                    CONNECT TO DISCORD
-                </button>
-                <button id="helpBtn"
-                    class="bg-white/5 hover:bg-white/10 p-3 rounded-2xl border border-white/10 transition-all group"
-                    title="Setup Guide">
-                    <svg class="w-5 h-5 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                        </path>
-                    </svg>
-                </button>
-                <div id="statusIndicator"
-                    class="flex items-center bg-black/40 px-4 py-2.5 rounded-2xl border border-white/5">
-                    <span class="status-dot bg-gray-500"></span>
-                    <span class="text-sm font-medium tracking-widest uppercase text-gray-500 ml-2">Offline</span>
+        <div id="cat-discord" class="content-category active">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold neon-text tracking-tighter">
+                        VOICE<span class="text-[var(--primary)]">DOMINATOR</span>
+                    </h1>
+                    <p class="text-gray-400 mt-2 font-light">Professional Real-time Audio Processing Engine</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="discordConnectBtn"
+                        class="btn-discord flex items-center gap-2 px-6 py-2.5 rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all group">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.862-1.297 1.197-1.99a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-2.863-1.366.077.077 0 0 1-.008-.126c.193-.145.385-.298.568-.456a.077.077 0 0 1 .081-.01c4.001 1.837 8.356 1.837 12.316 0a.076.076 0 0 1 .081.01c.183.158.375.311.569.456a.077.077 0 0 1-.007.126 12.91 12.91 0 0 1-2.863 1.366.077.077 0 0 0-.042.106c.335.694.735 1.361 1.197 1.99a.078.078 0 0 0 .084.028 19.83 19.83 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z">
+                            </path>
+                        </svg>
+                        CONNECT TO DISCORD
+                    </button>
+                    <button id="helpBtn"
+                        class="bg-white/5 hover:bg-white/10 p-3 rounded-2xl border border-white/10 transition-all group"
+                        title="Setup Guide">
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                            </path>
+                        </svg>
+                    </button>
+                    <div id="statusIndicator"
+                        class="flex items-center bg-black/40 px-4 py-2.5 rounded-2xl border border-white/5 cursor-pointer group/status"
+                        onclick="if(engine.isActive) engine.stop()" title="Click to Stop Engine">
+                        <span class="status-dot bg-gray-500"></span>
+                        <div class="flex flex-col ml-2">
+                            <span id="statusLabel"
+                                class="text-sm font-medium tracking-widest uppercase text-gray-500">Offline</span>
+                            <span id="detailedStatus" class="text-[8px] text-gray-600 font-mono uppercase">System
+                                Ready</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button data-preset="deep" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Deep
-                Male</button>
-            <button data-preset="gaming" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Crisp
-                Gaming</button>
-            <button data-preset="radio" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Radio
-                FM</button>
-            <button data-preset="cinematic"
-                class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Cinematic Bass</button>
+        <div id="cat-voice" class="content-category">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button data-preset="deep" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Deep
+                    Male</button>
+                <button data-preset="gaming" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Crisp
+                    Gaming</button>
+                <button data-preset="radio" class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Radio
+                    FM</button>
+                <button data-preset="cinematic"
+                    class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest">Cinematic Bass</button>
+                <button data-preset="clean_dominance"
+                    class="btn-preset p-4 rounded-2xl text-xs uppercase tracking-widest col-span-2 md:col-span-4 border-purple-500/30 text-purple-400 hover:text-white hover:border-purple-500">
+                    🎮 Clean Dominance Gaming Chain (Discord Friendly)
+                </button>
+            </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-12">
-            <div class="space-y-8">
-                <div class="space-y-3">
-                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Microphone
-                        Input</label>
-                    <select id="inputSelector"
-                        class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-[var(--primary)] transition-colors text-white">
-                        <option value="default" class="bg-gray-900">Default Microphone</option>
-                    </select>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="flex justify-between items-end">
-                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Input Gain /
-                            Boost</label>
-                        <span id="gainVal" class="text-[var(--primary)] font-mono text-sm">1.0</span>
+        <div id="cat-functions" class="content-category">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div class="space-y-3">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Microphone
+                            Input</label>
+                        <select id="inputSelector"
+                            class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-[var(--primary)] transition-colors text-white">
+                            <option value="default" class="bg-gray-900">Default Microphone</option>
+                        </select>
                     </div>
-                    <input id="gain" type="range" min="0" max="10" step="0.1" value="1" class="w-full">
-                </div>
 
-                <div class="space-y-4">
-                    <div class="flex justify-between items-end">
-                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Echo
-                            Intensity</label>
-                        <span id="echoVal" class="text-[var(--primary)] font-mono text-sm">0.00</span>
-                    </div>
-                    <input id="echoRange" type="range" min="0" max="0.8" step="0.01" value="0" class="w-full">
-                </div>
-
-                <div class="bg-white/5 p-6 rounded-2xl space-y-4 border border-white/5">
-                    <div class="flex justify-between items-center">
-                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Hear Myself
-                            (Sidetone)</label>
-                        <input type="checkbox" id="monitorToggle"
-                            class="w-5 h-5 accent-[var(--primary)] cursor-pointer">
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-widest">
-                            <span>Monitor Volume</span>
-                            <span id="monitorVal">0.50</span>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Input Gain /
+                                Boost</label>
+                            <span id="gainVal" class="text-[var(--primary)] font-mono text-sm">1.0</span>
                         </div>
-                        <input id="monitorRange" type="range" min="0" max="1" step="0.01" value="0.5"
-                            class="w-full h-1">
+                        <input id="gain" type="range" min="0" max="10" step="0.1" value="1" class="w-full">
                     </div>
-                </div>
 
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Atmosphere
-                            Noise</label>
-                        <div class="flex items-center gap-2">
-                            <span class="text-[9px] uppercase text-gray-500 font-bold">Hear Locally:</span>
-                            <input type="checkbox" id="noiseMonitorToggle"
-                                class="w-4 h-4 accent-[var(--primary)] cursor-pointer" checked>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Echo
+                                Intensity</label>
+                            <span id="echoVal" class="text-[var(--primary)] font-mono text-sm">0.00</span>
                         </div>
+                        <input id="echoRange" type="range" min="0" max="0.8" step="0.01" value="0" class="w-full">
                     </div>
-                    <div class="flex justify-between items-end">
-                        <span id="noiseVal" class="text-[var(--primary)] font-mono text-sm">0.00</span>
-                    </div>
-                    <input id="noiseVol" type="range" min="0" max="1.0" step="0.01" value="0" class="w-full">
                 </div>
 
-                <div class="space-y-3">
-                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Acoustic
-                        Profile</label>
-                    <select id="noiseType"
-                        class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-[var(--primary)] transition-colors text-white">
-                        <option value="white" class="bg-gray-900">Static White</option>
-                        <option value="pink" class="bg-gray-900">Natural Pink</option>
-                        <option value="hum" class="bg-gray-900">Analog Hum</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="flex flex-col justify-between space-y-8">
-                <div class="visualizer-container">
-                    <canvas id="visualizer" width="500" height="160" class="w-full h-full"></canvas>
+                <div class="space-y-6">
+                    <!-- Studio Clarity Engine -->
                     <div
-                        class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 transition-opacity">
-                        <span class="text-3xl font-bold tracking-widest text-white/10">LIVE SPECTRUM</span>
+                        class="bg-blue-500/10 p-6 rounded-2xl space-y-4 border border-blue-400/20 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">✨</span>
+                                <label class="text-[10px] uppercase tracking-widest text-blue-400 font-extrabold">Studio
+                                    Clarity Pro</label>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="studioToggle" class="sr-only peer">
+                                <div
+                                    class="w-12 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-500 ring-2 ring-blue-400/20">
+                                </div>
+                            </label>
+                        </div>
+                        <p class="text-[9px] text-blue-300/60 leading-tight font-medium uppercase tracking-tighter">
+                            Ultra-Loud & Crystal Clear Vocal Chain Active
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Atmosphere
+                                Noise</label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[9px] uppercase text-gray-500 font-bold">In Sidetone:</span>
+                                <input type="checkbox" id="noiseMonitorToggle"
+                                    class="w-4 h-4 accent-[var(--primary)] cursor-pointer">
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span id="noiseVal" class="text-[var(--primary)] font-mono text-sm">0.00</span>
+                        </div>
+                        <input id="noiseVol" type="range" min="0" max="1.0" step="0.01" value="0" class="w-full">
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Acoustic
+                            Profile</label>
+                        <select id="noiseType"
+                            class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-[var(--primary)] transition-colors text-white">
+                            <option value="white" class="bg-gray-900">Static White</option>
+                            <option value="pink" class="bg-gray-900">Natural Pink</option>
+                            <option value="hum" class="bg-gray-900">Analog Hum</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cat-connectivity" class="content-category">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <!-- Diagnostic Section -->
+                    <div class="bg-yellow-500/5 p-6 rounded-2xl space-y-4 border border-yellow-500/10">
+                        <div class="flex justify-between items-center">
+                            <label
+                                class="text-[10px] uppercase tracking-widest text-yellow-500/70 font-black">Diagnostics</label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[9px] uppercase text-gray-500 font-bold">Bypass FX:</span>
+                                <input type="checkbox" id="bypassToggle"
+                                    class="w-4 h-4 accent-yellow-500 cursor-pointer">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[9px] text-gray-500 uppercase tracking-widest">
+                                <span>Raw Mic Signal</span>
+                                <span id="rawVal" class="text-yellow-500/80">00.0</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-black/40 rounded-full overflow-hidden border border-white/5">
+                                <div id="rawBar" class="h-full bg-yellow-500/40 w-0 transition-all duration-75"></div>
+                            </div>
+                        </div>
+                        <button id="testMicBtn"
+                            class="w-full py-2 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/20 rounded-xl text-[9px] font-black uppercase tracking-widest text-yellow-500 transition-all">
+                            Test My Mic (3s Loop)
+                        </button>
+                    </div>
+
+                    <div class="bg-white/5 p-6 rounded-2xl space-y-4 border border-white/5">
+                        <div class="flex justify-between items-center">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Hear Myself
+                                (Sidetone)</label>
+                            <input type="checkbox" id="monitorToggle"
+                                class="w-5 h-5 accent-[var(--primary)] cursor-pointer">
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-widest">
+                                <span>Monitor Volume</span>
+                                <span id="monitorVal">0.50</span>
+                            </div>
+                            <input id="monitorRange" type="range" min="0" max="1" step="0.01" value="0.5"
+                                class="w-full h-1">
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between px-6 py-5 bg-white/5 rounded-2xl border border-white/5">
-                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Pressure Level</span>
-                    <span id="dbMeter" class="text-3xl font-black text-[var(--primary)] italic">00.0</span>
+                <div class="space-y-6">
+                    <div class="visualizer-container">
+                        <canvas id="visualizer" width="500" height="160" class="w-full h-full"></canvas>
+                    </div>
+
+                    <div
+                        class="flex items-center justify-between px-6 py-5 bg-white/5 rounded-2xl border border-white/5">
+                        <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">DB Meter</span>
+                        <span id="dbMeter" class="text-3xl font-black text-[var(--primary)] italic">00.0</span>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+
+        <div id="cat-soundboard" class="content-category">
+            <div class="bg-purple-500/10 border border-purple-500/20 p-6 rounded-2xl space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🎹</span>
+                        <h3 class="text-xs font-black uppercase tracking-tighter text-purple-400">Custom Soundboard
+                        </h3>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="engine.stopAllSounds()"
+                            class="bg-red-500/20 hover:bg-red-500/30 p-2 rounded-lg text-red-400 transition-all"
+                            title="Stop Current Sounds">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                            </svg>
+                        </button>
+                        <button id="uploadSoundBtn"
+                            class="bg-purple-500/20 hover:bg-purple-500/30 p-2 rounded-lg text-purple-300 transition-all"
+                            title="Upload Sound">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <input type="file" id="soundUploadInput" accept="audio/mp3,audio/wav,audio/ogg" class="hidden">
+                <div id="soundContainer" class="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto custom-scrollbar">
+                    <!-- Sounds will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="cat-other" class="content-category">
+            <div class="space-y-6">
+                <!-- Terminate Button -->
+                <button onclick="engine.stop()"
+                    class="w-full py-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-xl text-[10px] font-black uppercase tracking-widest text-red-500 transition-all">
+                    Stop / Terminate Engine
+                </button>
 
                 <!-- Monitoring Device Selector -->
-                <div id="monitoringDeviceSection" class="hidden space-y-3">
-                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Hear Myself On:</label>
+                <div id="monitoringDeviceSection" class="space-y-3">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Output
+                        Destination:</label>
                     <select id="sinkSelector"
-                        class="w-full bg-white/10 border border-white/10 p-3 rounded-xl text-xs outline-none focus:border-[var(--primary)] text-gray-300">
-                        <option value="default">Default Speaker</option>
+                        class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-[var(--primary)] text-gray-300">
+                        <option value="default" class="bg-gray-900">Default Speaker</option>
                     </select>
                 </div>
 
@@ -179,33 +334,33 @@
                             </div>
                         </label>
                     </div>
-                    <p class="text-[10px] text-gray-500 leading-tight">
-                        Turn **OFF** if you hear your own voice through speakers. <br>
-                        Turn **ON** when you are ready to send audio to Discord.
+                    <p class="text-[10px] text-gray-500 leading-tight italic">
+                        "Broadcast Mode" sends your processed voice to Discord.
                     </p>
                     <div class="h-[1px] bg-blue-500/10 w-full"></div>
-                    <p class="text-[10px] text-gray-400 leading-relaxed font-light">
-                        1. Browser Output → **Cable Input** <br>
-                        2. Discord Input → **Cable Output**
-                    </p>
+                    <!-- Debug Log -->
+                    <div class="space-y-2">
+                        <div
+                            class="flex justify-between items-center text-[9px] uppercase tracking-widest text-blue-400/60 font-black">
+                            <span>System Logs</span>
+                            <button onclick="document.getElementById('debugLog').innerHTML = ''"
+                                class="hover:text-blue-300 text-[8px]">Clear</button>
+                        </div>
+                        <div id="debugLog"
+                            class="h-24 overflow-y-auto bg-black/30 rounded-lg p-3 font-mono text-[9px] text-blue-300/80 custom-scrollbar space-y-1">
+                            <div>> System Initialized</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
 
-        <button id="toggleBtn"
-            class="mic-toggle off w-full py-8 rounded-2xl font-black text-2xl uppercase tracking-[0.4em] flex items-center justify-center gap-6 group">
-            <span id="toggleText">INJECT</span>
-            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
-                </path>
-            </svg>
-        </button>
 
-        <footer class="text-center text-[9px] uppercase tracking-[0.5em] text-gray-600">
-            Powered by VoiceDominator V3.1 &bull; Discord Dominance Enabled
-        </footer>
+    <footer class="text-center text-[9px] uppercase tracking-[0.5em] text-gray-600">
+        Powered by VoiceDominator V3.1 &bull; Discord Dominance Enabled
+    </footer>
     </div>
 
     <!-- Discord Setup Wizard Modal -->
@@ -217,6 +372,8 @@
             <!-- Progress Bar -->
             <div class="flex gap-2">
                 <div class="step-indicator h-1 flex-1 bg-[var(--primary)] rounded-full transition-all duration-500"
+                    id="stepIndicator0"></div>
+                <div class="step-indicator h-1 flex-1 bg-white/10 rounded-full transition-all duration-500"
                     id="stepIndicator1"></div>
                 <div class="step-indicator h-1 flex-1 bg-white/10 rounded-full transition-all duration-500"
                     id="stepIndicator2"></div>
@@ -234,8 +391,41 @@
                 </button>
             </div>
 
+            <!-- Step 0: Installation -->
+            <div id="step0" class="wizard-step active pb-4">
+                <div class="checklist-item space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-black ring-4 ring-red-500/20">
+                            0</div>
+                        <div>
+                            <h3 class="text-lg text-white font-bold">Install VB-CABLE</h3>
+                            <p class="text-xs text-gray-400">Essential driver for Discord</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 space-y-4">
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Aapke system mein <strong>"CABLE Input"</strong> nahi dikh raha hai iska matlab Driver
+                            installed nahi hai.
+                        </p>
+                        <a href="https://vb-audio.com/Cable/" target="_blank"
+                            class="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            DOWNLOAD VB-CABLE DRIVER
+                        </a>
+                        <p class="text-[10px] text-yellow-500 italic text-center">Note: Install karne ke baad Computer
+                            <strong>Restart</strong> karna zaroori hai!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Step 1: Windows Sound Settings -->
-            <div id="step1" class="wizard-step active pb-4">
+            <div id="step1" class="wizard-step hidden pb-4">
                 <div class="checklist-item space-y-6">
                     <div class="flex items-center gap-4">
                         <div
@@ -332,7 +522,7 @@
                 </button>
                 <button id="wizardNext" onclick="changeWizardStep(1)"
                     class="btn-wizard-next flex-[2] py-4 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all">
-                    Step 2: Discord Settings
+                    Step 1: Sound Settings
                 </button>
                 <button id="wizardFinish" onclick="closeWizard()"
                     class="btn-wizard-next w-full py-4 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all hidden">
@@ -361,16 +551,102 @@
                 this.mainOutputGain = null;
                 this.monitorStreamDest = null;
                 this.analyser = null;
+                this.rawAnalyser = null;
                 this.noiseGain = null;
+                this.recorder = null;
+                this.chunks = [];
+                this.isTesting = false;
+                this.isStudioMode = false;
+
+                // Studio Nodes
+                this.studioGain = null;
+                this.studioMakeupGain = null;
+                this.studioHighPass = null;
+                this.studioCompressor = null;
+                this.studioPresence = null;
+                this.studioSaturator = null;
                 this.noiseSource = null;
                 this.isActive = false;
+                this.isBypassMode = false;
                 this.animationId = null;
+                this.masterBus = null;
+                this.sounds = new Map();
+                this.activeSounds = new Set();
+                this.db = null;
+                this.initDB();
+            }
+
+            initDB() {
+                const request = indexedDB.open('VoiceDominatorDB', 1);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('sounds')) {
+                        db.createObjectStore('sounds', { keyPath: 'id' });
+                    }
+                };
+                request.onsuccess = (e) => {
+                    this.db = e.target.result;
+                    this.loadStoredSounds();
+                };
+            }
+
+            async loadStoredSounds() {
+                if (!this.db) return;
+                const tx = this.db.transaction('sounds', 'readonly');
+                const store = tx.objectStore('sounds');
+                const request = store.getAll();
+                request.onsuccess = async () => {
+                    const items = request.result;
+                    if (items.length > 0) {
+                        if (!this.audioCtx) {
+                            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        }
+                        for (const item of items) {
+                            try {
+                                const audioBuffer = await this.audioCtx.decodeAudioData(item.data.slice(0));
+                                this.sounds.set(item.id, {
+                                    name: item.name,
+                                    buffer: audioBuffer
+                                });
+                            } catch (e) { console.error("Error decoding stored sound", e); }
+                        }
+                        this.renderSounds();
+                    }
+                };
+            }
+
+            log(msg, type = 'info') {
+                const logEl = document.getElementById('debugLog');
+                if (!logEl) return;
+                const div = document.createElement('div');
+                div.className = type === 'error' ? 'text-red-400' : 'text-blue-300/80';
+                div.innerText = `> ${new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}: ${msg}`;
+                logEl.appendChild(div);
+                logEl.scrollTop = logEl.scrollHeight;
+
+                if (type === 'error') {
+                    document.getElementById('detailedStatus').innerText = msg;
+                    document.getElementById('detailedStatus').classList.replace('text-gray-600', 'text-red-500');
+                } else {
+                    document.getElementById('detailedStatus').innerText = msg;
+                    document.getElementById('detailedStatus').classList.replace('text-red-500', 'text-gray-600');
+                }
             }
 
             async start() {
                 try {
-                    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    this.log("Initializing Audio Engine...");
+                    if (!this.audioCtx) {
+                        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+
+                    if (this.audioCtx.state === 'suspended') {
+                        this.log("Resuming Audio Context...");
+                        await this.audioCtx.resume();
+                    }
+
                     const selectedSource = document.getElementById("inputSelector").value;
+                    this.log(`Requesting Mic: ${selectedSource}`);
                     const constraints = {
                         audio: {
                             deviceId: selectedSource !== 'default' ? { exact: selectedSource } : undefined,
@@ -380,8 +656,30 @@
                         }
                     };
                     this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    this.log("Mic Access Granted");
 
                     this.micSource = this.audioCtx.createMediaStreamSource(this.stream);
+
+                    // Create Noise Gate 
+                    this.noiseGateBypass = true;
+                    this.noiseGateThreshold = Math.pow(10, -40 / 20); // -40dB default
+                    this.noiseGate = this.audioCtx.createScriptProcessor(256, 1, 1);
+                    let gateEnvelope = 0;
+                    this.noiseGate.onaudioprocess = (e) => {
+                        const input = e.inputBuffer.getChannelData(0);
+                        const output = e.outputBuffer.getChannelData(0);
+                        if (this.noiseGateBypass) {
+                            output.set(input);
+                            return;
+                        }
+                        for (let i = 0; i < input.length; i++) {
+                            const abs = Math.abs(input[i]);
+                            gateEnvelope = abs > gateEnvelope ? gateEnvelope + (abs - gateEnvelope) * 0.1 : gateEnvelope + (abs - gateEnvelope) * 0.001;
+                            // Smooth fade for gate to prevent clicking
+                            output[i] = gateEnvelope > this.noiseGateThreshold ? input[i] : input[i] * (gateEnvelope / this.noiseGateThreshold);
+                        }
+                    };
+
                     this.gainNode = this.audioCtx.createGain();
                     this.highPass = this.audioCtx.createBiquadFilter();
                     this.midCut = this.audioCtx.createBiquadFilter();
@@ -414,12 +712,46 @@
                     this.mainOutputGain.gain.value = 1; // Controlled by UI
 
                     this.analyser = this.audioCtx.createAnalyser();
+                    this.rawAnalyser = this.audioCtx.createAnalyser();
+                    this.rawAnalyser.fftSize = 256;
                     this.noiseGain = this.audioCtx.createGain();
 
                     this.highPass.type = "highpass";
                     this.midCut.type = "peaking";
                     this.presence.type = "peaking";
                     this.noiseGain.gain.value = 0;
+
+                    // Studio Clarity Nodes
+                    this.studioGain = this.audioCtx.createGain();
+                    this.studioGain.gain.value = 25.0; // Extreme Boost (Loud!)
+
+                    this.studioMakeupGain = this.audioCtx.createGain();
+                    this.studioMakeupGain.gain.value = 2.0; // Post-compression boost
+
+                    this.studioPresence = this.audioCtx.createBiquadFilter();
+                    this.studioPresence.type = 'peaking';
+                    this.studioPresence.frequency.value = 4500;
+                    this.studioPresence.gain.value = 10;
+
+                    this.studioSaturator = this.audioCtx.createWaveShaper();
+                    this.studioSaturator.curve = this.makeDistortionCurve(150); // Aggressive Saturator
+                    this.studioSaturator.oversample = '4x';
+
+                    this.studioHighPass = this.audioCtx.createBiquadFilter();
+                    this.studioHighPass.type = 'highpass';
+                    this.studioHighPass.frequency.value = 120;
+
+                    this.studioPresence = this.audioCtx.createBiquadFilter();
+                    this.studioPresence.type = 'peaking';
+                    this.studioPresence.frequency.value = 4500;
+                    this.studioPresence.gain.value = 8; // Clarity shelf
+
+                    this.studioCompressor = this.audioCtx.createDynamicsCompressor();
+                    this.studioCompressor.threshold.value = -18;
+                    this.studioCompressor.knee.value = 0;
+                    this.studioCompressor.ratio.value = 20;
+                    this.studioCompressor.attack.value = 0.005;
+                    this.studioCompressor.release.value = 0.050;
 
                     // Routing
                     this.micSource
@@ -429,32 +761,36 @@
                         .connect(this.compressor)
                         .connect(this.limiter);
 
+                    // Connect raw analyser to check input immediately
+                    this.micSource.connect(this.rawAnalyser);
+
                     // Echo Loop
                     this.limiter.connect(this.echoNode);
                     this.echoNode.connect(this.echoFeedback);
                     this.echoFeedback.connect(this.echoNode);
 
                     // Mix
-                    const finalMix = this.audioCtx.createGain();
-                    this.limiter.connect(finalMix);
-                    this.echoNode.connect(finalMix);
+                    this.masterBus = this.audioCtx.createGain();
+                    this.limiter.connect(this.masterBus);
+                    this.echoNode.connect(this.masterBus);
 
                     // Desktop Out (to Virtual Cable / Speakers)
-                    finalMix.connect(this.gainNode);
+                    this.masterBus.connect(this.gainNode);
                     this.gainNode.connect(this.analyser);
                     this.analyser.connect(this.mainOutputGain);
                     this.mainOutputGain.connect(this.audioCtx.destination);
 
-                    // Sidetone Out (Hear Myself) - Independent Sink Path
+                    // Sidetone Out (Hear Myself) - Branches from Gain Node so it scales with input boost
                     this.monitorStreamDest = this.audioCtx.createMediaStreamDestination();
-                    finalMix.connect(this.monitorGain);
+                    this.gainNode.connect(this.monitorGain);
                     this.monitorGain.connect(this.monitorStreamDest);
 
                     // Create hidden local monitor
+                    document.getElementById("sideToneOutput").innerHTML = '';
                     const audio = document.createElement('audio');
                     audio.id = "localMonitorNode";
                     audio.srcObject = this.monitorStreamDest.stream;
-                    audio.play();
+                    audio.play().catch(e => console.error(e));
                     document.getElementById("sideToneOutput").appendChild(audio);
 
                     this.createNoise();
@@ -463,10 +799,12 @@
                     this.updateUI(true);
 
                     this.setPreset('deep');
+                    this.updateRouting();
                     this.syncSettings();
+                    this.log("Engine Active & Live");
                 } catch (e) {
+                    this.log(`Engine Failure: ${e.message}`, 'error');
                     console.error("Mic Error:", e);
-                    alert("Engine Failure: Could not access microphone.");
                 }
             }
 
@@ -491,8 +829,12 @@
             stop() {
                 this.isActive = false;
                 if (this.animationId) cancelAnimationFrame(this.animationId);
+                this.stopAllSounds();
+                if (this.isTesting) this.stopTest(); // Safety stop
                 if (this.stream) this.stream.getTracks().forEach(track => track.stop());
-                if (this.audioCtx) this.audioCtx.close();
+                if (this.audioCtx && this.audioCtx.state === 'running') {
+                    this.audioCtx.suspend();
+                }
 
                 this.updateUI(false);
                 this.clearVisualizer();
@@ -528,12 +870,54 @@
                 const btn = document.querySelector(`[data-preset="${type}"]`);
                 if (btn) btn.classList.add('active');
 
+                // Reset Defaults before applying
+                this.noiseGateBypass = true;
+                this.compressor.ratio.setTargetAtTime(12, this.audioCtx.currentTime, 0.1);
+                this.compressor.threshold.setTargetAtTime(-30, this.audioCtx.currentTime, 0.1);
+                this.limiter.threshold.setTargetAtTime(-1, this.audioCtx.currentTime, 0.1);
+
+                // Normal Attack/Release resets
+                this.compressor.attack.setTargetAtTime(0.003, this.audioCtx.currentTime, 0.1);
+                this.compressor.release.setTargetAtTime(0.25, this.audioCtx.currentTime, 0.1);
+
                 switch (type) {
                     case "deep": this.applyFilter(60, 250, -6, 3500, 4); break;
                     case "gaming": this.applyFilter(100, 300, -8, 5000, 8); break;
                     case "radio": this.applyFilter(80, 400, -4, 4000, 6); break;
                     case "cinematic": this.applyFilter(30, 150, -2, 2500, 5); break;
+                    case "clean_dominance":
+                        // 0. Disable Echo (Echo hurts clear dominant voice)
+                        document.getElementById('echoRange').value = 0;
+                        document.getElementById('echoVal').innerText = "0.00";
+                        this.echoFeedback.gain.setTargetAtTime(0, this.audioCtx.currentTime, 0.1);
+
+                        // 1. Noise Gate (-40 dB)
+                        this.noiseGateThreshold = Math.pow(10, -40 / 20);
+                        this.noiseGateBypass = false;
+
+                        // 3. EQ: Low Cut 90Hz, 3.5kHz +3dB, 6kHz +2dB (mapped cleanly)
+                        this.applyFilter(90, 3500, 3, 6000, 2);
+
+                        // 2. Compressor: 4:1 Ratio, -18 dB Threshold
+                        this.compressor.ratio.setTargetAtTime(4, this.audioCtx.currentTime, 0.1);
+                        this.compressor.threshold.setTargetAtTime(-18, this.audioCtx.currentTime, 0.1);
+                        // Enhanced quality: Fast attack, transparent release
+                        this.compressor.attack.setTargetAtTime(0.005, this.audioCtx.currentTime, 0.1);
+                        this.compressor.release.setTargetAtTime(0.1, this.audioCtx.currentTime, 0.1);
+
+                        // Makeup Gain +5 dB (linear approx 1.778)
+                        this.gainNode.gain.setTargetAtTime(1.778, this.audioCtx.currentTime, 0.1);
+                        document.getElementById('gain').value = 1.778;
+                        document.getElementById('gainVal').innerText = "1.8";
+
+                        // 4. Limiter: -1 dB (already ceiling natively, setting to -1)
+                        this.limiter.threshold.setTargetAtTime(-1, this.audioCtx.currentTime, 0.1);
+                        this.limiter.ratio.setTargetAtTime(20, this.audioCtx.currentTime, 0.1);
+                        break;
                 }
+
+                // Route changes dynamically if gate state changes
+                if (this.isActive) this.updateRouting();
             }
 
             applyFilter(hp, mcF, mcG, pF, pG) {
@@ -588,6 +972,181 @@
                     }
                 }
                 draw();
+
+                // Raw Diagnostic Draw
+                const drawRaw = () => {
+                    if (!this.isActive) return;
+                    requestAnimationFrame(drawRaw);
+                    const rawData = new Uint8Array(this.rawAnalyser.frequencyBinCount);
+                    this.rawAnalyser.getByteTimeDomainData(rawData);
+
+                    let sum = 0;
+                    for (let i = 0; i < rawData.length; i++) sum += Math.abs(rawData[i] - 128);
+                    let volume = (sum / rawData.length) * 10;
+
+                    document.getElementById("rawVal").innerText = volume.toFixed(1);
+                    document.getElementById("rawBar").style.width = `${Math.min(volume * 2, 100)}%`;
+
+                    if (volume > 1) {
+                        document.getElementById("rawBar").style.backgroundColor = 'rgba(234, 179, 8, 0.4)';
+                    } else {
+                        document.getElementById("rawBar").style.backgroundColor = 'rgba(234, 179, 8, 0.1)';
+                    }
+                }
+                drawRaw();
+            }
+
+            async testMic() {
+                if (!this.isActive || this.isTesting) return;
+                this.isTesting = true;
+                this.chunks = [];
+                const statusEl = document.getElementById("testMicStatus");
+                const btnEl = document.getElementById("testMicBtn");
+
+                try {
+                    this.recorder = new MediaRecorder(this.stream);
+                    this.recorder.ondataavailable = (e) => this.chunks.push(e.data);
+                    this.recorder.onstop = () => {
+                        const blob = new Blob(this.chunks, { type: 'audio/ogg; codecs=opus' });
+                        const url = URL.createObjectURL(blob);
+                        const audio = new Audio(url);
+                        statusEl.innerText = "Playing back recording...";
+                        audio.play();
+                        audio.onended = () => {
+                            statusEl.innerText = "Loop Finished.";
+                            this.isTesting = false;
+                            btnEl.innerText = "Test My Mic (3s Loop)";
+                            btnEl.classList.remove('opacity-50');
+                        };
+                    };
+
+                    btnEl.innerText = "RECORDING (3s)...";
+                    btnEl.classList.add('opacity-50');
+                    statusEl.innerText = "Speak now!";
+                    this.recorder.start();
+
+                    setTimeout(() => {
+                        if (this.recorder.state === 'recording') {
+                            this.recorder.stop();
+                        }
+                    }, 3000);
+                } catch (e) {
+                    this.log(`Test Failed: ${e.message}`, 'error');
+                    this.isTesting = false;
+                }
+            }
+
+            stopTest() {
+                if (this.recorder && this.recorder.state === 'recording') {
+                    this.recorder.stop();
+                }
+                this.isTesting = false;
+            }
+
+            toggleStudio(enabled) {
+                if (!this.isActive) return;
+                this.isStudioMode = enabled;
+                if (enabled) {
+                    this.isBypassMode = false;
+                    document.getElementById('bypassToggle').checked = false;
+                }
+                this.log(enabled ? "STUDIO CLARITY: ENGAGED" : "STUDIO CLARITY: DISENGAGED");
+                this.updateRouting();
+            }
+
+            toggleBypass(enabled) {
+                if (!this.isActive) return;
+                this.isBypassMode = enabled;
+                if (enabled) {
+                    this.isStudioMode = false;
+                    document.getElementById('studioToggle').checked = false;
+                }
+                this.log(enabled ? "FX BYPASSED (Raw Mode)" : "FX ENGAGED");
+                this.updateRouting();
+            }
+
+            safeDisconnect(node) {
+                if (node) {
+                    try { node.disconnect(); } catch (e) { /* Ignore InvalidAccessError */ }
+                }
+            }
+
+            updateRouting() {
+                if (!this.isActive) return;
+
+                // 1. Disconnect everything safely to ensure a clean slate
+                this.safeDisconnect(this.micSource);
+                this.safeDisconnect(this.noiseGate);
+                this.safeDisconnect(this.highPass);
+                this.safeDisconnect(this.midCut);
+                this.safeDisconnect(this.presence);
+                this.safeDisconnect(this.compressor);
+                this.safeDisconnect(this.limiter);
+                this.safeDisconnect(this.echoNode);
+                this.safeDisconnect(this.echoFeedback);
+
+                this.safeDisconnect(this.studioHighPass);
+                this.safeDisconnect(this.studioGain);
+                this.safeDisconnect(this.studioPresence);
+                this.safeDisconnect(this.studioSaturator);
+                this.safeDisconnect(this.studioCompressor);
+                this.safeDisconnect(this.studioMakeupGain);
+
+                this.safeDisconnect(this.masterBus);
+                this.masterBus.connect(this.gainNode);
+
+                // Re-connect raw analyser (always on)
+                this.micSource.connect(this.rawAnalyser);
+
+                if (this.isBypassMode) {
+                    // Direct Path
+                    this.micSource.connect(this.masterBus);
+                } else if (this.isStudioMode) {
+                    // Studio Chain: Mic -> HighPass -> PreGain -> Presence -> Saturator -> Compressor -> Makeup -> MasterBus
+                    if (!this.noiseGateBypass) {
+                        this.micSource.connect(this.noiseGate).connect(this.studioHighPass);
+                    } else {
+                        this.micSource.connect(this.studioHighPass);
+                    }
+                    this.studioHighPass
+                        .connect(this.studioGain)
+                        .connect(this.studioPresence)
+                        .connect(this.studioSaturator)
+                        .connect(this.studioCompressor)
+                        .connect(this.studioMakeupGain)
+                        .connect(this.masterBus);
+                } else {
+                    // Standard Chain: Mic -> NoiseGate -> HP -> Mid -> Presence -> Compressor -> Limiter -> MasterBus
+                    if (!this.noiseGateBypass) {
+                        this.micSource.connect(this.noiseGate).connect(this.highPass);
+                    } else {
+                        this.micSource.connect(this.highPass);
+                    }
+                    this.highPass
+                        .connect(this.midCut)
+                        .connect(this.presence)
+                        .connect(this.compressor)
+                        .connect(this.limiter)
+                        .connect(this.masterBus);
+
+                    // Re-connect Echo
+                    this.limiter.connect(this.echoNode);
+                    this.echoNode.connect(this.echoFeedback);
+                    this.echoFeedback.connect(this.echoNode);
+                    this.echoNode.connect(this.masterBus);
+                }
+            }
+
+            makeDistortionCurve(amount) {
+                const k = amount;
+                const n_samples = 44100;
+                const curve = new Float32Array(n_samples);
+                const deg = Math.PI / 180;
+                for (let i = 0; i < n_samples; ++i) {
+                    const x = (i * 2) / n_samples - 1;
+                    curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+                }
+                return curve;
             }
 
             clearVisualizer() {
@@ -598,28 +1157,31 @@
             }
 
             updateUI(running) {
-                const btn = document.getElementById("toggleBtn");
-                const text = document.getElementById("toggleText");
                 const status = document.getElementById("statusIndicator");
+                const dot = status?.querySelector('.status-dot');
+                const label = document.getElementById('statusLabel');
 
                 if (running) {
-                    btn.classList.replace('off', 'on');
-                    text.innerText = "STOP";
-                    status.querySelector('.status-dot').style.backgroundColor = 'var(--primary)';
-                    status.querySelector('.status-dot').style.color = 'var(--primary)';
-                    status.querySelector('.status-dot').classList.add('pulse');
-                    status.querySelector('span:last-child').innerText = "ONLINE";
-                    status.querySelector('span:last-child').classList.replace('text-gray-500', 'text-[var(--primary)]');
-                    document.getElementById("monitoringDeviceSection").classList.remove('hidden');
+                    if (dot) {
+                        dot.style.backgroundColor = 'var(--primary)';
+                        dot.classList.add('pulse');
+                    }
+                    if (label) {
+                        label.innerText = "ONLINE";
+                        label.classList.replace('text-gray-500', 'text-[var(--primary)]');
+                    }
                     this.enumerateDevices();
                 } else {
-                    btn.classList.replace('on', 'off');
-                    text.innerText = "INJECT";
-                    status.querySelector('.status-dot').style.backgroundColor = '#6b7280';
-                    status.querySelector('.status-dot').classList.remove('pulse');
-                    status.querySelector('span:last-child').innerText = "Offline";
-                    status.querySelector('span:last-child').classList.replace('text-[var(--primary)]', 'text-gray-500');
-                    document.getElementById("monitoringDeviceSection").classList.add('hidden');
+                    if (dot) {
+                        dot.style.backgroundColor = '#6b7280';
+                        dot.classList.remove('pulse');
+                    }
+                    if (label) {
+                        label.innerText = "Offline";
+                        label.classList.replace('text-[var(--primary)]', 'text-gray-500');
+                    }
+                    document.getElementById('landingGate').classList.remove('hidden');
+                    this.log("Engine Stopped");
                 }
             }
 
@@ -653,15 +1215,92 @@
                     console.error("Device Enumeration Error:", e);
                 }
             }
+
+            async addSound(file) {
+                if (!this.audioCtx) {
+                    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const id = Date.now().toString();
+                    const name = file.name.replace(/\.[^/.]+$/, "");
+
+                    if (this.db) {
+                        const tx = this.db.transaction('sounds', 'readwrite');
+                        tx.objectStore('sounds').put({ id, name, data: arrayBuffer.slice(0) });
+                    }
+
+                    const audioBuffer = await this.audioCtx.decodeAudioData(arrayBuffer);
+                    this.sounds.set(id, {
+                        name: name,
+                        buffer: audioBuffer
+                    });
+                    this.log(`Sound Added: ${file.name}`);
+                    this.renderSounds();
+                } catch (e) {
+                    this.log(`Upload Failed: ${e.message}`, 'error');
+                }
+            }
+
+            removeSound(id) {
+                this.sounds.delete(id);
+                if (this.db) {
+                    const tx = this.db.transaction('sounds', 'readwrite');
+                    tx.objectStore('sounds').delete(id);
+                }
+                this.renderSounds();
+            }
+
+            triggerSound(id) {
+                if (!this.isActive || !this.sounds.has(id)) return;
+                const source = this.audioCtx.createBufferSource();
+                source.buffer = this.sounds.get(id).buffer;
+                source.connect(this.masterBus);
+
+                this.activeSounds.add(source);
+                source.onended = () => {
+                    this.activeSounds.delete(source);
+                };
+
+                source.start(0);
+            }
+
+            stopAllSounds() {
+                if (this.activeSounds) {
+                    this.activeSounds.forEach(source => {
+                        try {
+                            source.stop();
+                        } catch (e) { }
+                    });
+                    this.activeSounds.clear();
+                }
+            }
+
+            renderSounds() {
+                const container = document.getElementById('soundContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                this.sounds.forEach((sound, id) => {
+                    const div = document.createElement('div');
+                    div.className = "flex items-center justify-between bg-white/5 hover:bg-white/10 p-2 rounded-xl border border-white/5 transition-all group cursor-pointer";
+                    div.innerHTML = `
+                        <span class="text-[10px] text-gray-300 truncate pr-2 flex-grow" onclick="engine.triggerSound('${id}')">${sound.name}</span>
+                        <button onclick="engine.removeSound('${id}')" class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    `;
+                    container.appendChild(div);
+                });
+            }
         }
 
         const engine = new VoiceProcessor();
-        let wizardStep = 1;
+        let wizardStep = 0;
 
         const showWizardStep = (step) => {
             wizardStep = step;
             document.querySelectorAll('.wizard-step').forEach((s, idx) => {
-                if (idx + 1 === step) {
+                if (idx === step) {
                     s.classList.remove('hidden');
                     s.classList.add('active');
                 } else {
@@ -671,7 +1310,7 @@
             });
 
             // Update Indicators
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 0; i <= 3; i++) {
                 const indicator = document.getElementById(`stepIndicator${i}`);
                 if (i <= step) indicator.style.backgroundColor = 'var(--primary)';
                 else indicator.style.backgroundColor = 'rgba(255,255,255,0.1)';
@@ -682,8 +1321,13 @@
             const backBtn = document.getElementById("wizardBack");
             const finishBtn = document.getElementById("wizardFinish");
 
-            if (step === 1) {
+            if (step === 0) {
                 backBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                finishBtn.classList.add('hidden');
+                nextBtn.innerText = "I have Installed & Restarted";
+            } else if (step === 1) {
+                backBtn.classList.remove('hidden');
                 nextBtn.classList.remove('hidden');
                 finishBtn.classList.add('hidden');
                 nextBtn.innerText = "Step 2: Discord Settings";
@@ -701,30 +1345,55 @@
 
         const changeWizardStep = (dir) => {
             const nextStep = wizardStep + dir;
-            if (nextStep >= 1 && nextStep <= 3) {
+            if (nextStep >= 0 && nextStep <= 3) {
                 showWizardStep(nextStep);
             }
         };
 
         const closeWizard = () => {
             document.getElementById("helpModal").classList.add('hidden');
-            setTimeout(() => showWizardStep(1), 300);
+            setTimeout(() => showWizardStep(0), 300);
         };
 
-        document.getElementById("toggleBtn").onclick = () => {
-            engine.isActive ? engine.stop() : engine.start();
+        const toggleSidebar = () => {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
         };
+
+        const switchCategory = (id) => {
+            // Update Sidebar Active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick').includes(`'${id}'`)) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Switch content views
+            document.querySelectorAll('.content-category').forEach(cat => {
+                cat.classList.remove('active');
+            });
+            document.getElementById(`cat-${id}`).classList.add('active');
+
+            // Close sidebar on mobile
+            if (window.innerWidth < 1024) toggleSidebar();
+        };
+
+        // document.getElementById("toggleBtn").onclick removed - handled by Inject Orb
 
         document.querySelectorAll('.btn-preset').forEach(btn => {
             btn.onclick = () => engine.setPreset(btn.dataset.preset);
         });
+
+        document.getElementById("testMicBtn").onclick = () => engine.testMic();
+        document.getElementById("studioToggle").onchange = (e) => engine.toggleStudio(e.target.checked);
 
         window.onload = () => {
             engine.enumerateDevices();
 
             const openWizard = () => {
                 document.getElementById("helpModal").classList.remove("hidden");
-                showWizardStep(1);
+                showWizardStep(0);
             };
 
             document.getElementById("helpBtn").onclick = openWizard;
@@ -750,6 +1419,10 @@
         document.getElementById("monitorToggle").onchange = updateMonitor;
         document.getElementById("monitorRange").oninput = updateMonitor;
         document.getElementById("noiseMonitorToggle").onchange = updateMonitor;
+
+        document.getElementById("bypassToggle").onchange = (e) => {
+            engine.toggleBypass(e.target.checked);
+        };
 
         document.getElementById("sinkSelector").onchange = async (e) => {
             const audio = document.getElementById("localMonitorNode");
@@ -783,6 +1456,16 @@
         document.getElementById("broadcastToggle").onchange = e => {
             const val = e.target.checked ? 1 : 0;
             if (engine.mainOutputGain) engine.mainOutputGain.gain.setTargetAtTime(val, engine.audioCtx.currentTime, 0.05);
+        };
+
+        document.getElementById("uploadSoundBtn").onclick = () => {
+            document.getElementById("soundUploadInput").click();
+        };
+
+        document.getElementById("soundUploadInput").onchange = (e) => {
+            if (e.target.files && e.target.files[0]) {
+                engine.addSound(e.target.files[0]);
+            }
         };
     </script>
 
